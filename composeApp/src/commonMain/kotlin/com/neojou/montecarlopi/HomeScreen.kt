@@ -32,25 +32,12 @@ import com.neojou.tools.ui.menu.MyTopMenuItem
 private const val TAG = "Home"
 
 /**
- * Main content modes for the shell area below the toolbar.
- */
-private enum class MainContent {
-    /** Default placeholder until a feature is chosen. */
-    Home,
-
-    /** Daily candlestick + volume chart (viewport pan/zoom). */
-    KChart,
-}
-
-/**
  * Primary application shell.
  *
- * Hosts a product-configured [MyTopMenuBar] and content area.
- * - Database → Input / View / Export / Import
- * - K Chart → View / Settings（均線 + KD + MACD 參數）
+ * Hosts a product-configured [MyTopMenuBar] (About) and the Monte Carlo π [Dashboard].
  */
 @Composable
-fun HomeScreen(about: AboutRequest) {
+fun HomeScreen(about: AboutRequest, demo: Boolean = false, demoPauseAt: Long = 0L) {
     // Product-specific menu tree only; [MyTopMenuBar] stays app-agnostic.
     // Rebuilt each composition so callbacks always see current shell state.
     val topMenus = listOf(
@@ -70,14 +57,13 @@ fun HomeScreen(about: AboutRequest) {
             MyTopMenuBar(items = topMenus)
         },
     ) { innerPadding ->
-        Box(
+        Dashboard(
+            demo = demo,
+            demoPauseAt = demoPauseAt,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text(AppVersion.APP_NAME)
-        }
+        )
     }
 }
 

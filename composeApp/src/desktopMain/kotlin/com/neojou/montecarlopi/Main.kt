@@ -30,14 +30,15 @@ fun main() {
         }
 
         val windowState = rememberWindowState(
-            size = DpSize(960.dp, 640.dp),
+            size = DpSize(1440.dp, 900.dp),
         )
         Window(
             onCloseRequest = ::exitApplication,
             title = AppVersion.APP_NAME,
             state = windowState,
         ) {
-            App(about)
+            App(about, demo = System.getenv("MONTECARLO_DEMO") == "1",
+                demoPauseAt = System.getenv("MONTECARLO_DEMO_PAUSE_AT")?.toLongOrNull() ?: 0L)
         }
     }
 }

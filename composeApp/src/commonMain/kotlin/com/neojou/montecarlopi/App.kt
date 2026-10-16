@@ -75,7 +75,7 @@ private sealed class AppInitState {
  * @see LaunchedEffect
  */
 @Composable
-fun App(about: AboutRequest = remember { AboutRequest() }) {
+fun App(about: AboutRequest = remember { AboutRequest() }, demo: Boolean = false, demoPauseAt: Long = 0L) {
     var initState: AppInitState by remember { mutableStateOf(AppInitState.Loading) }
 
     LaunchedEffect(Unit) {
@@ -93,7 +93,7 @@ fun App(about: AboutRequest = remember { AboutRequest() }) {
     AppTheme {
         when (val state = initState) {
             AppInitState.Loading -> Text("Loading...")
-            AppInitState.Ready -> HomeScreen(about)
+            AppInitState.Ready -> HomeScreen(about, demo, demoPauseAt)
             is AppInitState.Error -> Text("Init failed: ${state.error.message ?: "unknown"}")
         }
         if (about.visible) {
